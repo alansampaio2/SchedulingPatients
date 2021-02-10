@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SchedulingPatients.MVC.Models.Service>
+
+@{
+    ViewData["Title"] = "Serviços de Consulta";
+}
+
+<h1>Tipos de Consultas e Atendimento</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-sm btn-primary">Novo Serviço</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.ServiceID">Editar</a> |
+                <a class="btn btn-sm btn-success" asp-action="Details" asp-route-id="@item.ServiceID">Ver</a> |
+                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.ServiceID">Excluir</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,132 @@
+﻿@model SchedulingPatients.MVC.Models.PatientViewModel.EmployeeIndexData
+
+@{
+    ViewData["Title"] = "Profissionais";
+}
+
+<h1>Profissionais</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-sm btn-primary">Novo Profissional</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nome Completo
+            </th>
+            <th>
+                Data de Contratação
+            </th>
+            <th>
+                Consultório
+            </th>
+            <th>
+                Serviços
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Employees)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["EmployeeID"])
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HireDate)
+                </td>
+                <td>
+                    @if (item.OfficeAssignment != null)
+                    {
+                        @item.OfficeAssignment.Location
+                    }
+                </td>
+                <td>
+                    @foreach (var service in item.ServiceAssignments)
+                    {
+                        @service.Service.ServiceID @service.Service.Title <br />
+                    }
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Services != null)
+{
+    <h3>Tipos de Consultas oferecido pelo Profissional Selecionado</h3>
+
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Código</th>
+            <th>Descrição</th>
+            <th>Departamento</th>
+        </tr>
+
+        @foreach (var item in Model.Services)
+        {
+            string selectedRow = "";
+            if (item.ServiceID == (int?)ViewData["ServiceID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Selecionar", "Index", new { serviceID = item.ServiceID })
+                </td>
+                <td>
+                    @item.ServiceID
+                </td>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Department.Name
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+@if (Model.Schedules != null)
+{
+    <h3>
+        Paciente agendados no tipo de consulta selecionado
+    </h3>
+    <table class="table">
+        <tr>
+            <th>Nome Completo</th>
+            <th>Grupo</th>
+            <th>Data</th>
+        </tr>
+        @foreach (var item in Model.Schedules)
+        {
+            <tr>
+                <td>
+                    @item.Patient.FullName
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Group)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+            </tr>
+        }
+    </table>
+}

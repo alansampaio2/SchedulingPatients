@@ -1,0 +1,23 @@
+﻿
+@model IEnumerable<SchedulingPatients.MVC.Models.PatientViewModel.ScheduleDateGroup>
+
+@{ 
+    ViewData["Title"] = "Número de Paciente Agendados";
+}
+
+<h2>Pacientes Agendados</h2>
+
+<table class="table">
+    <tr>
+        <th>Data da Consulta</th>
+        <th>Total de Pacientes</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model => item.ScheduleDate)</td>
+            <td>@Html.DisplayFor(model => item.PatientCount)</td>
+        </tr>
+    }
+</table>
